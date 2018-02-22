@@ -79,19 +79,20 @@ public class CCCJ4 {
 
 		}
 
-		// The stack will now have the final answer... we need to get that and return it
+		// The stack will now have the final answer at the top of the list...
+		// we need to get that and return it
 		return postfix.pop();
 	}
 
 	/**
 	 * If they have entered a valid input i.e. no characters
 	 * 
-	 * @param s
+	 * @param input
 	 * @return
 	 */
-	public static boolean isValidInput(String s) {
-		for (int i = 0; i < s.length(); i++) {
-			if (Character.isLetter(s.charAt(i))) {
+	public static boolean isValidInput(String input) {
+		for (int i = 0; i < input.length(); i++) {
+			if (Character.isLetter(input.charAt(i))) {
 				return false;
 			}
 		}
