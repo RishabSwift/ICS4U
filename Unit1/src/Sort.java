@@ -11,11 +11,11 @@ public class Sort {
 	public static void main(String[] args) {
 
 		// to check
-		String[] is = { "hell", "up", "xeon", "hello", "she", "said", "fuuu", "you", "lolz" };
-		// int[] is = { 1, 3, 5, 19, 0, 32, 3294, 34, 59 };
-		// double[] is = { 3.35, 3.1, 5.5, 3.1, 0.5, 0.1, 3.2, 32.5, 34.4 };
+//		String[] is = { "hell", "up", "xeon", "hello", "she", "said", "fuuu", "you", "lolz" };
+//		 int[] is = { 2, 1, 3, 4, 8, 5, 7, 6};
+		 double[] is = { 3.35, 3.1, 5.5, 3.1, 0.5, 0.1, 3.2, 32.5, 34.4 };
 		System.out.printf("Unsorted  : %s\n", Arrays.toString(is));
-		bubbleSort(is);
+		quickSort(is);
 		System.out.printf("Sorted bro: %s", Arrays.toString(is));
 
 	}
@@ -298,4 +298,191 @@ public class Sort {
 		array[index2] = temp;
 	}
 
+	/**
+	 * Quick sort algorithm
+	 * @param array
+	 * 			unsorted int array
+	 */
+	private static void quickSort(int[] array) {
+		quickSort(array, 0, array.length-1);
+	}
+
+	/**
+	 * Quick sort algorithm
+	 * @param array
+	 * 			unsorted double array
+	 */
+	private static void quickSort(double[] array) {
+		quickSort(array, 0, array.length-1);
+	}
+
+	/**
+	 * Quick sort algorithm
+	 * @param array
+	 * 			unsorted String array
+	 */
+	private static void quickSort(String[] array) {
+		quickSort(array, 0, array.length-1);
+	}
+
+	/**
+	 * Recursive QuickSort method so arrays can be segmented
+	 * @param array
+	 * 			integer array
+	 * @param start
+	 * 			array start index
+	 * @param end
+	 * 			array end index
+	 */
+	private static void quickSort(int[] array, int start, int end) {
+		// Only sort if start < end (recursive statement)
+		if (start >= end) return;
+		// Get the pivot index
+		int pivot = partition(array, start, end);
+		// There are two splits, sort the split recursively
+		quickSort(array, start, pivot - 1);
+		quickSort(array, pivot + 1, end);
+	}
+
+	/**
+	 * Recursive QuickSort method so arrays can be segmented
+	 * @param array
+	 * 			double array
+	 * @param start
+	 * 			array start index
+	 * @param end
+	 * 			array end index
+	 */
+	private static void quickSort(double[] array, int start, int end) {
+		// Only sort if start < end (recursive statement)
+		if (start >= end) return;
+		// Get the pivot index
+		int pivot = partition(array, start, end);
+		// There are two splits, sort the split recursively
+		quickSort(array, start, pivot - 1);
+		quickSort(array, pivot + 1, end);
+	}
+
+	/**
+	 * Recursive QuickSort method so arrays can be segmented
+	 * @param array
+	 * 			String array
+	 * @param start
+	 * 			array start index
+	 * @param end
+	 * 			array end index
+	 */
+	private static void quickSort(String[] array, int start, int end) {
+		// Only sort if start < end (recursive statement)
+		if (start >= end) return;
+		// Get the pivot index
+		int pivot = partition(array, start, end);
+		// There are two splits, sort the split recursively
+		quickSort(array, start, pivot - 1);
+		quickSort(array, pivot + 1, end);
+	}
+
+	/**
+	 * Partition method used by Quick Sort algorithm
+	 * @param array
+	 * 			integer array
+	 * @param start
+	 * 			array index to start partition
+	 * @param end
+	 * 			array index to end partition
+	 * @return
+	 * 		pivot index
+	 */
+	private static int partition(int[] array, int start, int end){
+
+		// The pivot is the very last element in the array (or segment)
+		int pivot = array[end];
+		// The pivot index for now starts that the beginning
+		int pivotIndex = start;
+
+		// Loop through the provided array
+		for (int i = start; i < end; i++) {
+			// If the element at i is less than or equal to the pivot,
+			// a swap must happen in order to move the greater numbers to the right and the lower numbers to the left
+			if (array[i] <= pivot) {
+				swap(array, i, pivotIndex);
+				// Increase the pivot by 1
+				pivotIndex++;
+			}
+		}
+
+		// Swap the pivot index and the end value of the array after a successful partition
+		swap(array, pivotIndex, end);
+		// Return the pivot index
+		return pivotIndex;
+
+	}
+	/**
+	 * Partition method used by Quick Sort algorithm
+	 * @param array
+	 * 			double array
+	 * @param start
+	 * 			array index to start partition
+	 * @param end
+	 * 			array index to end partition
+	 * @return
+	 * 		pivot index
+	 */
+	private static int partition(double[] array, int start, int end) {
+
+		// The pivot is the very last element in the array (or segment)
+		double pivot = array[end];
+		// The pivot index for now starts that the beginning
+		int pivotIndex = start;
+
+		// Loop through the provided array
+		for (int i = start; i < end; i++) {
+			// If the element at i is less than or equal to the pivot,
+			// a swap must happen in order to move the greater numbers to the right and the lower numbers to the left
+			if (array[i] <= pivot) {
+				swap(array, i, pivotIndex);
+				// Increase the pivot by 1
+				pivotIndex++;
+			}
+		}
+
+		// Swap the pivot index and the end value of the array after a successful partition
+		swap(array, pivotIndex, end);
+		// Return the pivot index
+		return pivotIndex;
+
+	}
+	/**
+	 * Partition method used by Quick Sort algorithm
+	 * @param array
+	 * 			String array
+	 * @param start
+	 * 			array index to start partition
+	 * @param end
+	 * 			array index to end partition
+	 * @return
+	 * 		pivot index
+	 */
+	private static int partition(String[] array, int start, int end) {
+		// The pivot is the very last element in the array (or segment)
+		String pivot = array[end];
+		// The pivot index for now starts that the beginning
+		int pivotIndex = start;
+
+		// Loop through the provided array
+		for (int i = start; i < end; i++) {
+			// If the element at i is less than or equal to the pivot,
+			// a swap must happen in order to move the greater numbers to the right and the lower numbers to the left
+			if (array[i].compareTo(pivot) < 0) {
+				swap(array, i, pivotIndex);
+				// Increase the pivot by 1
+				pivotIndex++;
+			}
+		}
+
+		// Swap the pivot index and the end value of the array after a successful partition
+		swap(array, pivotIndex, end);
+		// Return the pivot index
+		return pivotIndex;
+	}
 }
