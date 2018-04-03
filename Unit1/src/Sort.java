@@ -303,7 +303,7 @@ public class Sort {
 	 * @param array
 	 * 			unsorted int array
 	 */
-	private static void quickSort(int[] array) {
+	public static void quickSort(int[] array) {
 		quickSort(array, 0, array.length-1);
 	}
 
@@ -312,7 +312,7 @@ public class Sort {
 	 * @param array
 	 * 			unsorted double array
 	 */
-	private static void quickSort(double[] array) {
+	public static void quickSort(double[] array) {
 		quickSort(array, 0, array.length-1);
 	}
 
@@ -321,7 +321,7 @@ public class Sort {
 	 * @param array
 	 * 			unsorted String array
 	 */
-	private static void quickSort(String[] array) {
+	public static void quickSort(String[] array) {
 		quickSort(array, 0, array.length-1);
 	}
 
@@ -492,7 +492,7 @@ public class Sort {
 	 * @param array
 	 * 			unsorted int array
 	 */
-	private static int[] mergeSort(int[] array) {
+	public static int[] mergeSort(int[] array) {
 		// If the length is just one, we know tha the array has a single element
 		// This is a the statement that stops recursion from overflowing
 		if (array.length == 1) {
@@ -530,7 +530,7 @@ public class Sort {
 	 * @param array
 	 * 			unsorted double array
 	 */
-	private static double[] mergeSort(double[] array) {
+	public static double[] mergeSort(double[] array) {
 		// If the length is just one, we know tha the array has a single element
 		// This is a the statement that stops recursion from overflowing
 		if (array.length == 1) {
@@ -568,7 +568,7 @@ public class Sort {
 	 * @param array
 	 * 			unsorted String array
 	 */
-	private static String[] mergeSort(String[] array) {
+	public static String[] mergeSort(String[] array) {
 		// If the length is just one, we know tha the array has a single element
 		// This is a the statement that stops recursion from overflowing
 		if (array.length == 1) {
