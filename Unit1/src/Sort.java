@@ -1,7 +1,7 @@
 import java.util.Arrays;
 
 /**
- * This class contains sort algorithms: selection, insertion and bubble
+ * This class contains sort algorithms: selection, insertion and bubble, quick, merge
  * It also contains a helpful swap method to swap two elements in an array
  * @author Rishab Bhatt
  *
@@ -11,11 +11,11 @@ public class Sort {
 	public static void main(String[] args) {
 
 		// to check
-//		String[] is = { "hell", "up", "xeon", "hello", "she", "said", "fuuu", "you", "lolz" };
+		String[] is = { "hell", "up", "xeon", "hello", "she", "said", "fuuu", "you", "lolz" };
 //		 int[] is = { 2, 1, 3, 4, 8, 5, 7, 6};
-		 double[] is = { 3.35, 3.1, 5.5, 3.1, 0.5, 0.1, 3.2, 32.5, 34.4 };
+//		 double[] is = { 3.35, 3.1, 5.5, 3.1, 0.5, 0.1, 3.2, 32.5, 34.4 };
 		System.out.printf("Unsorted  : %s\n", Arrays.toString(is));
-		quickSort(is);
+		mergeSort(is);
 		System.out.printf("Sorted bro: %s", Arrays.toString(is));
 
 	}
@@ -485,4 +485,270 @@ public class Sort {
 		// Return the pivot index
 		return pivotIndex;
 	}
+
+
+	/**
+	 * Merge sort algorithm
+	 * @param array
+	 * 			unsorted int array
+	 */
+	private static int[] mergeSort(int[] array) {
+		// If the length is just one, we know tha the array has a single element
+		// This is a the statement that stops recursion from overflowing
+		if (array.length == 1) {
+			return array;
+		}
+		// Two temporary arrays to store values left and right of the number
+		int aLength1 = array.length / 2;
+		int aLength2 = array.length - aLength1;
+		int leftArray[] = new int[aLength1];
+		int rightArray[] = new int[aLength2];
+
+//		for (int i = 0; i < aLength1; i++) {
+//			leftArray[i] = array[i];
+//		}
+//		for (int i = aLength1; i < aLength1 + aLength2; i++) {
+//			rightArray[i-aLength1] = array[i];
+//		}
+		// Copy array to fill the "left" and "right" array
+		System.arraycopy(array, 0, leftArray, 0, aLength1);
+		System.arraycopy(array, aLength1, rightArray, 0, aLength1 + aLength2 - aLength1);
+
+		// Merge Sort the "left" and "right" arrays further until there is only one element left
+		leftArray = mergeSort(leftArray);
+		rightArray = mergeSort(rightArray);
+
+		// Merge the two left and right arrays sorted
+		// Save the value in the original array variable so it takes change in memory as well
+		int[] newArray = merge(leftArray, rightArray);
+		System.arraycopy(newArray, 0, array, 0, newArray.length);
+		return array;
+	}
+
+	/**
+	 * Merge sort algorithm
+	 * @param array
+	 * 			unsorted double array
+	 */
+	private static double[] mergeSort(double[] array) {
+		// If the length is just one, we know tha the array has a single element
+		// This is a the statement that stops recursion from overflowing
+		if (array.length == 1) {
+			return array;
+		}
+		// Two temporary arrays to store values left and right of the number
+		int aLength1 = array.length / 2;
+		int aLength2 = array.length - aLength1;
+		double leftArray[] = new double[aLength1];
+		double rightArray[] = new double[aLength2];
+
+//		for (int i = 0; i < aLength1; i++) {
+//			leftArray[i] = array[i];
+//		}
+//		for (int i = aLength1; i < aLength1 + aLength2; i++) {
+//			rightArray[i-aLength1] = array[i];
+//		}
+		// Copy array to fill the "left" and "right" array
+		System.arraycopy(array, 0, leftArray, 0, aLength1);
+		System.arraycopy(array, aLength1, rightArray, 0, aLength1 + aLength2 - aLength1);
+
+		// Merge Sort the "left" and "right" arrays further until there is only one element left
+		leftArray = mergeSort(leftArray);
+		rightArray = mergeSort(rightArray);
+
+		// Merge the two left and right arrays sorted
+		// Save the value in the original array variable so it takes change in memory as well
+		double[] newArray = merge(leftArray, rightArray);
+		System.arraycopy(newArray, 0, array, 0, newArray.length);
+		return array;
+	}
+
+	/**
+	 * Merge sort algorithm
+	 * @param array
+	 * 			unsorted String array
+	 */
+	private static String[] mergeSort(String[] array) {
+		// If the length is just one, we know tha the array has a single element
+		// This is a the statement that stops recursion from overflowing
+		if (array.length == 1) {
+			return array;
+		}
+		// Two temporary arrays to store values left and right of the number
+		int aLength1 = array.length / 2;
+		int aLength2 = array.length - aLength1;
+		String leftArray[] = new String[aLength1];
+		String rightArray[] = new String[aLength2];
+
+//		for (int i = 0; i < aLength1; i++) {
+//			leftArray[i] = array[i];
+//		}
+//		for (int i = aLength1; i < aLength1 + aLength2; i++) {
+//			rightArray[i-aLength1] = array[i];
+//		}
+		// Copy array to fill the "left" and "right" array
+		System.arraycopy(array, 0, leftArray, 0, aLength1);
+		System.arraycopy(array, aLength1, rightArray, 0, aLength1 + aLength2 - aLength1);
+
+		// Merge Sort the "left" and "right" arrays further until there is only one element left
+		leftArray = mergeSort(leftArray);
+		rightArray = mergeSort(rightArray);
+
+		// Merge the two left and right arrays sorted
+		// Save the value in the original array variable so it takes change in memory as well
+		String[] newArray = merge(leftArray, rightArray);
+		System.arraycopy(newArray, 0, array, 0, newArray.length);
+		return array;
+	}
+
+
+	/**
+	 * Merge two int arrays together
+	 * @param array1
+	 * 			First array to merge
+	 * @param array2
+	 * 			Second array to merge
+	 * @return
+	 * 			merged array
+	 */
+	private static int[] merge(int[] array1, int[] array2) {
+		// Need a new array that is long enough to fit both
+		int newArray[] = new int[array1.length + array2.length];
+		// The array index of array 1 and 2 — keeping track of where we are to compare
+		int array1Index = 0, array2Index = 0;
+		// Loop through new array
+		for (int i = 0; i < newArray.length; i++) {
+			// If the first number in the first array is smaller than the first number in the second array
+			if (array1[array1Index] < array2[array2Index]) {
+				// If so... add that to the current i position of the new array
+				newArray[i] = array1[array1Index];
+				// ... increment the array1's index
+				array1Index++;
+
+				// If the first array's index is as long as its length.. that means that we must take care of array2
+				if (array1Index == array1.length) {
+					for (int j = i+1; j < newArray.length; j++) {
+						newArray[j] = array2[array2Index];
+						array2Index++;
+					}
+					break;
+				}
+			} else {
+				// Else scenario for array 2
+				newArray[i] = array2[array2Index];
+				array2Index++;
+
+				if (array2Index == array2.length) {
+					for (int j = i+1; j < newArray.length; j++) {
+						newArray[j] = array1[array1Index];
+						array1Index++;
+					}
+					break;
+				}
+			}
+		}
+		// Return the newly merged array
+		return newArray;
+	}
+
+	/**
+	 * Merge two double arrays together
+	 * @param array1
+	 * 			First array to merge
+	 * @param array2
+	 * 			Second array to merge
+	 * @return
+	 * 			merged array
+	 */
+	private static double[] merge(double[] array1, double[] array2) {
+		// Need a new array that is long enough to fit both
+		double newArray[] = new double[array1.length + array2.length];
+		// The array index of array 1 and 2 — keeping track of where we are to compare
+		int array1Index = 0, array2Index = 0;
+		// Loop through new array
+		for (int i = 0; i < newArray.length; i++) {
+			// If the first number in the first array is smaller than the first number in the second array
+			if (array1[array1Index] < array2[array2Index]) {
+				// If so... add that to the current i position of the new array
+				newArray[i] = array1[array1Index];
+				// ... increment the array1's index
+				array1Index++;
+
+				// If the first array's index is as long as its length.. that means that we must take care of array2
+				if (array1Index == array1.length) {
+					for (int j = i+1; j < newArray.length; j++) {
+						newArray[j] = array2[array2Index];
+						array2Index++;
+					}
+					break;
+				}
+			} else {
+				// Else scenario for array 2
+				newArray[i] = array2[array2Index];
+				array2Index++;
+
+				if (array2Index == array2.length) {
+					for (int j = i+1; j < newArray.length; j++) {
+						newArray[j] = array1[array1Index];
+						array1Index++;
+					}
+					break;
+				}
+			}
+		}
+		// Return the newly merged array
+		return newArray;
+	}
+
+	/**
+	 * Merge two int arrays together
+	 * @param array1
+	 * 			First array to merge
+	 * @param array2
+	 * 			Second array to merge
+	 * @return
+	 * 			merged array
+	 */
+	private static String[] merge(String[] array1, String[] array2) {
+		// Need a new array that is long enough to fit both
+		String newArray[] = new String[array1.length + array2.length];
+		// The array index of array 1 and 2 — keeping track of where we are to compare
+		int array1Index = 0, array2Index = 0;
+		// Loop through new array
+		for (int i = 0; i < newArray.length; i++) {
+			// If the first number in the first array is smaller than the first number in the second array
+			if (array1[array1Index].compareTo(array2[array2Index]) < 0) {
+					// If so... add that to the current i position of the new array
+				newArray[i] = array1[array1Index];
+				// ... increment the array1's index
+				array1Index++;
+
+				// If the first array's index is as long as its length.. that means that we must take care of array2
+				if (array1Index == array1.length) {
+					for (int j = i+1; j < newArray.length; j++) {
+						newArray[j] = array2[array2Index];
+						array2Index++;
+					}
+					break;
+				}
+			} else {
+				// Else scenario for array 2
+				newArray[i] = array2[array2Index];
+				array2Index++;
+
+				if (array2Index == array2.length) {
+					for (int j = i+1; j < newArray.length; j++) {
+						newArray[j] = array1[array1Index];
+						array1Index++;
+					}
+					break;
+				}
+			}
+		}
+		// Return the newly merged array
+		return newArray;
+	}
+
+
+
 }
