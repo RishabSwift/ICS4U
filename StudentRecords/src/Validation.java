@@ -11,20 +11,33 @@ import java.util.regex.Pattern;
  */
 public class Validation {
 
+    private boolean DEBUG = false;
+
     private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
+    /**
+     * The different validation types
+     */
     public static enum Type {
-        ALPHA, NUM, EMAIL, PROVINCE, POSTAL_CODE
+        ALPHA, ALPHA_NUM, ALPHA_NONE, NUM, EMAIL, PROVINCE, POSTAL_CODE, PHONE, STUDENT_NUMBER, GRADE
     }
 
+    /**
+     * The different provinces
+     */
     private enum Provinces {
         AB, BC, MB, NM, NL, NT, NS, NU, ON, PE, QC, SK, YT
     }
 
-    public void validate(String input, Type... types) {
-        for (Type type : types) {
-            while (!validate(input, type)) {
-                Messages.showMessage("");
+    /**
+     * Validate the user input by checking if it's a certain type (e.g. a phone number)
+     *
+     * @param input User input
+     * @param types Type of validation
+     */
+    public void validate(String input, Type type) {
+        if (DEBUG) return;
+            while (!inputIsValid(input, type)) {
                 Messages.showMessage(errorMessages(type), 30, 0);
                 System.out.print("> ");
                 try {
@@ -32,13 +45,21 @@ public class Validation {
                 } catch (IOException ex) {
 
                 }
-            }
+                Messages.showMessage("");
         }
     }
 
+    /**
+     * Validate user input by checking if they have entered only what they are allowed to enter.
+     * For example, if you ask a user to pick between two colors (like "red" and "blue"), they can only type in one of those
+     * The accepted input is a strong that contains the many different accepted input seperated by a pipe "|"
+     * E.g. acceptedInput = "blue|gray"
+     *
+     * @param input         User input
+     * @param acceptedInput what the user can enter
+     */
     public void validate(String input, String acceptedInput) {
         while (!stringContains(input, acceptedInput)) {
-            Messages.showMessage("");
             Messages.showMessage("Error! You can only enter \"" + acceptedInput.replace("|", "\" or \"") + "\".");
             System.out.print("> ");
             try {
@@ -46,44 +67,86 @@ public class Validation {
             } catch (IOException ex) {
 
             }
+
+            Messages.showMessage("");
         }
     }
 
-    private boolean validate(String input, Type type) {
+    /**
+     * Internal validation method that validates different type of input
+     *
+     * @param input User input
+     * @param type  Validation Type
+     * @return true if validation passes
+     */
+    private boolean inputIsValid(String input, Type type) {
+
+        if (DEBUG) return true;
+
         switch (type) {
             case ALPHA:
                 return isAlphabetic(input);
             case NUM:
                 return isNumeric(input);
+            case ALPHA_NUM:
+                return isAlphabetic(input) || isNumeric(input) || input.contains(" ");
+            case ALPHA_NONE:
+                return isAlphabetic(input) || input.equals(""); // input can be alpha or empty
             case EMAIL:
                 return isEmail(input);
             case PROVINCE:
                 return isProvince(input);
             case POSTAL_CODE:
                 return isPostalCode(input);
+            case PHONE:
+                return isNumeric(input) && input.length() == 10;
+            case STUDENT_NUMBER:
+                return input.length() == 9;
+            case GRADE:
+                return isValidGrade(input);
             default:
                 return true;
         }
     }
 
+    /**
+     * There are different validation types, and this handles the error messages should each validation go wrong
+     *
+     * @param type validation type
+     * @return the error message
+     */
     private String errorMessages(Type type) {
         switch (type) {
             case ALPHA:
                 return "Error! Please ensure you are only entering alphabetical characters!";
             case NUM:
                 return "Error! Please ensure you are only entering numbers!";
+            case ALPHA_NUM:
+                return "Error! Please ensure you are only entering alphanumeric characters!";
             case EMAIL:
                 return "Error! Please enter a valid email address!";
             case PROVINCE:
                 return "Error! Please enter a valid province! (e.g. \"ON\" or \"Ontario\")";
             case POSTAL_CODE:
                 return "Error! Please enter a valid postal code (e.g. \"M4X1H8\")!";
+            case PHONE:
+                return "Error! Please enter a valid phone number!";
+            case STUDENT_NUMBER:
+                return "Error! Please enter a valid student number! It is 9 digits in length";
+            case GRADE:
+                return "Error! This student must be in grades 9-12";
             default:
                 return "Error! Please enter a valid input!";
         }
     }
 
 
+    /**
+     * Check if the given input only contains alphabetic characters
+     *
+     * @param input user input to check
+     * @return true if characters are only alphabetic
+     */
     private boolean isAlphabetic(String input) {
         for (int i = 0; i < input.length(); i++) {
             if (!Character.isLetter(input.charAt(i))) {
@@ -93,9 +156,18 @@ public class Validation {
         return true;
     }
 
+    /**
+     * Check if the given input is a number
+     *
+     * @param input user input to check
+     * @return true if it's a number
+     */
     private boolean isNumeric(String input) {
+        // Need this try-catch block to catch any errors while parsing
+        // If there is an error while parsing the long value, then we know it's not a number
+        // If there is no issue, then it's a number
         try {
-            int number = Integer.parseInt(input);
+            long number = Long.parseLong(input);
         } catch (NumberFormatException exception) {
             return false;
         }
@@ -103,6 +175,12 @@ public class Validation {
     }
 
 
+    /**
+     * Check if a given input is an email address by using regular expressions
+     *
+     * @param input input email address
+     * @return true if email
+     */
     private boolean isEmail(String input) {
         String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
         Pattern pattern = Pattern.compile(regex);
@@ -110,6 +188,12 @@ public class Validation {
         return matcher.matches();
     }
 
+    /**
+     * Check if the given input is a province.
+     *
+     * @param input short or full form of province
+     * @return true if given input is a province
+     */
     private boolean isProvince(String input) {
         input = input.toLowerCase();
         return stringContains(input, "ab|alberta")
@@ -179,6 +263,12 @@ public class Validation {
         }
     }
 
+    /**
+     * Check if the given input is a postal code
+     *
+     * @param input Postal code
+     * @return true if it's postal code
+     */
     private boolean isPostalCode(String input) {
         // get rid of the space if they entered one in the middle
         input.replace(" ", "");
@@ -202,4 +292,23 @@ public class Validation {
         // If we get this far, that means it's a valid postal code
         return true;
     }
+
+    /**
+     * Check if the input is a grade (number between 9-12)
+     *
+     * @param input user input
+     * @return true if user is in grades 9-12
+     */
+    private boolean isValidGrade(String input) {
+        if (!isNumeric(input)) {
+            return false;
+        }
+
+        // Convert to integer
+        int grade = Integer.parseInt(input);
+        // Check if user is in grade 9-12
+        return grade >= 9 && grade <= 12;
+
+    }
+
 }

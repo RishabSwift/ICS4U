@@ -1,12 +1,13 @@
 import java.util.Scanner;
 
-public class Student {
+public class Student implements Comparable {
 
     private String firstName, lastName, middleInitials, studentNumber, grade, phoneNumber, email, streetAddress, city, province, postalCode;
 
     public Student() {
 
     }
+
     public Student(String firstName, String lastName, String middleInitials, String studentNumber, String grade, String phoneNumber, String email, String streetAddress, String city, String province, String postalCode) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -22,7 +23,14 @@ public class Student {
     }
 
     public String getFullName() {
-        return String.format("%s %s", firstName, lastName);
+        if (getMiddleInitials().length() > 0) {
+            return String.format("%s %s %s", getFirstName(), getMiddleInitials(), getLastName());
+        }
+        return String.format("%s %s", getFirstName(), getLastName());
+    }
+
+    public String getFormattedAddress() {
+        return String.format("%s %s, %s, %s", getStreetAddress(), getCity(), getProvince(), getPostalCode());
     }
 
     public String getFirstName() {
@@ -38,7 +46,8 @@ public class Student {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = capitalizeFirstLetter(lastName);;
+        this.lastName = capitalizeFirstLetter(lastName);
+        ;
     }
 
     public String getMiddleInitials() {
@@ -46,7 +55,7 @@ public class Student {
     }
 
     public void setMiddleInitials(String middleInitials) {
-        this.middleInitials = middleInitials;
+        this.middleInitials = capitalizeFirstLetter(middleInitials);
     }
 
     public String getStudentNumber() {
@@ -114,11 +123,19 @@ public class Student {
     }
 
     private String capitalizeFirstLetter(String string) {
-       return string.substring(0, 1).toUpperCase() + string.substring(1);
+        return string.substring(0, 1).toUpperCase() + string.substring(1);
     }
 
     public String toString() {
-        return "SL";
+        Messages.showStudent(this);
+        return "";
+    }
+
+
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
     }
     //Last Name
 //First Name
