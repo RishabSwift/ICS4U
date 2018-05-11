@@ -4,16 +4,21 @@ import java.io.InputStreamReader;
 
 /**
  * This class is responsible for showing different messages such as welcome messages, and also getting user input form user
+ *
+ * @author Rishab Bhatt
  */
 public class Messages {
 
-    // Debug Mode
-    public static boolean DEBUG = true;
+    // Debug Mode.. ENABLE TO BYPASS ALL TEXT ANIMATION
+    public static boolean DEBUG = false;
+
     private static Records record;
     private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    public static String input; // This is the user input. It can be set by the validation class should it pass
 
     /**
      * The start message that is shown when the application is run for the first time
+     *
      * @param record Records instance
      */
     public static void startMessage(Records record) {
@@ -24,8 +29,9 @@ public class Messages {
         showMessage("You can add, view or search for a student.");
         showMessage("Type in:");
         showMessage("    Add     to add a new student", 0, 300);
-        showMessage("    Search  to search for a student", 0, 300);
+        showMessage("    Search  to search for a student using student ID", 0, 300);
         showMessage("    Load    to load students from a file", 0, 300);
+        showMessage("    Sort    to sort students using their last names", 0, 300);
         showMessage("    Save    to save all added/deleted students to file", 0, 300);
         showMessage("    Exit    to end application", 0, 300);
         showMessage("");
@@ -50,6 +56,17 @@ public class Messages {
         showMessage("--------------------------------", 10);
         showMessage("Load Students");
         showMessage("--------------------------------", 10);
+
+    }
+
+    public static void loadStudentWarning() {
+        showMessage("Loading from a file will remove any unsaved students.");
+        showMessage("Please make sure you have saved any newly added students before proceeding.");
+        showMessage("");
+        showMessage("Are you sure you want load students from a file?");
+        showMessage("Type in:");
+        showMessage("    Yes   to load students from a file", 0, 300);
+        showMessage("    No    to cancel and return to main menu", 0, 300);
         showMessage("");
     }
 
@@ -61,6 +78,13 @@ public class Messages {
         showMessage("    Cancel  to cancel any changes made", 0, 300);
         showMessage("    Exit    to go back to main menu", 0, 300);
         showMessage("");
+    }
+
+    public static void searchStudentMessage() {
+        showMessage("--------------------------------", 10);
+        showMessage("Search For A Student");
+        showMessage("--------------------------------", 10);
+        showMessage("Please enter the student's ID?");
     }
 
     public static void showStudent(Student student) {
@@ -88,8 +112,10 @@ public class Messages {
     public static void showStudentDeletedMessage() {
         showMessage("This student has been deleted successfully!");
     }
+
     /**
      * Get user input from console while checking if it's a valid input by validating it
+     *
      * @param validationType check if input passes the given validation type
      * @return user input
      */
@@ -102,7 +128,7 @@ public class Messages {
 
             Validation validation = new Validation();
             validation.validate(input, validationType);
-            record.input = input;
+            record.input = Messages.input;
             return input;
         } catch (IOException ex) {
             return null;
@@ -112,6 +138,7 @@ public class Messages {
 
     /**
      * Get user input from console while checking if it contains the accepted input
+     *
      * @param acceptedAnswers the accepted answers that the input must contain (seperated by pipe "|")
      * @return user input
      */
@@ -123,7 +150,7 @@ public class Messages {
 
             Validation validation = new Validation();
             validation.validate(input, acceptedAnswers);
-            record.input = input;
+            record.input = Messages.input;
             return input;
         } catch (IOException ex) {
             return null;
@@ -138,6 +165,17 @@ public class Messages {
     public static void showMessage(String message) {
         animateString(message, 0, 50, false);
     }
+
+    /**
+     * Show a message by animating it and replacing the word "student" by the student's first name
+     *
+     * @param message
+     * @param student
+     */
+    public static void showMessage(String message, Student student) {
+        animateString(message.replace("student's", student.getFirstName() + "'s"), 0, 50, false);
+    }
+
 
     public static void showMessage(String message, int speed) {
         animateString(message, speed, 100, false);

@@ -8,9 +8,13 @@ import java.util.regex.Pattern;
 
 /**
  * Validation class is responsible for input validation and data parsing
+ *
+ * @author Rishab Bhatt
  */
 public class Validation {
 
+
+    // ENABLE TO BYPASS ALL VALIDATIONS
     private boolean DEBUG = false;
 
     private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -33,20 +37,21 @@ public class Validation {
      * Validate the user input by checking if it's a certain type (e.g. a phone number)
      *
      * @param input User input
-     * @param types Type of validation
+     * @param type  Type of validation
      */
     public void validate(String input, Type type) {
-        if (DEBUG) return;
-            while (!inputIsValid(input, type)) {
-                Messages.showMessage(errorMessages(type), 30, 0);
-                System.out.print("> ");
-                try {
-                    input = br.readLine();
-                } catch (IOException ex) {
+        while (!inputIsValid(input, type)) {
+            Messages.showMessage(errorMessages(type), 30, 0);
+            System.out.print("> ");
+            try {
+                input = br.readLine();
+            } catch (IOException ex) {
 
-                }
-                Messages.showMessage("");
+            }
+            Messages.showMessage("");
         }
+
+        Messages.input = input;
     }
 
     /**
@@ -70,6 +75,8 @@ public class Validation {
 
             Messages.showMessage("");
         }
+
+        Messages.input = input;
     }
 
     /**
